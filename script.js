@@ -39,3 +39,17 @@ emailInput.addEventListener('input', (e) => {
 
     emailError.textContent = emailInput.validationMessage;
 });
+
+passwordInput.addEventListener('input', (e) => {
+    if (passwordInput.validity.valueMissing) {
+        passwordInput.setCustomValidity('Password is required!')
+    } else if (passwordInput.validity.typeMismatch) {
+        emailInput.setCustomValidity('Please Enter a valid password!');
+    } else if (passwordInput.validity.pattern) {
+        passwordInput.setCustomValidity('Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a number!');
+    } else {
+        passwordInput.setCustomValidity('');
+    }
+
+    passwordError.textContent = passwordInput.validationMessage;
+})
