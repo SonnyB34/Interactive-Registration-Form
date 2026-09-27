@@ -88,6 +88,7 @@ registerForm.addEventListener('submit', (e) => {
         alert('Account has been created!');
         localStorage.setItem('username', userNameInput.value);
 
+        emailInput.value = '';
         passwordInput.value = '';
         confirmPasswordInput.value = '';
     }
