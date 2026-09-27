@@ -5,7 +5,7 @@ const emailInput = document.getElementById('email');
 const emailError = document.getElementById('emailError');
 const passwordInput = document.getElementById('password');
 const passwordError = document.getElementById('passwordError');
-const confirmPassword = document.getElementById('confirmPassword');
+const confirmPasswordInput   = document.getElementById('confirmPassword');
 const confirmPasswordError = document.getElementById('confirmPasswordError');
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -27,7 +27,7 @@ userNameInput.addEventListener('input', (e) => {
     userNameError.textContent = userNameInput.validationMessage;
 });
 
-emailInput.addEventListener('input', (e) => {
+emailInput.addEventListener('change', (e) => {
 
     if (emailInput.validity.valueMissing) {
         emailInput.setCustomValidity('Email address required!');
@@ -40,7 +40,7 @@ emailInput.addEventListener('input', (e) => {
     emailError.textContent = emailInput.validationMessage;
 });
 
-passwordInput.addEventListener('input', (e) => {
+passwordInput.addEventListener('change', (e) => {
     if (passwordInput.validity.valueMissing) {
         passwordInput.setCustomValidity('Password is required!')
     } else if (passwordInput.validity.typeMismatch) {
@@ -52,4 +52,16 @@ passwordInput.addEventListener('input', (e) => {
     }
 
     passwordError.textContent = passwordInput.validationMessage;
+})
+
+// validate password and confirm password match
+
+confirmPasswordInput.addEventListener('change', (e) => {
+    if (confirmPasswordInput.value !== passwordInput.value) {
+        confirmPasswordInput.setCustomValidity('Passwords do not match!')
+    } else {
+        confirmPasswordInput.setCustomValidity('');
+    }
+
+    confirmPasswordError.textContent = confirmPasswordInput.validationMessage;
 })
