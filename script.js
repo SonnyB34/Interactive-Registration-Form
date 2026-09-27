@@ -18,7 +18,7 @@ window.addEventListener('DOMContentLoaded', () => {
 userNameInput.addEventListener('input', (e) => {
   if (userNameInput.validity.tooShort || userNameInput.validity.tooLong) {
     userNameInput.setCustomValidity(
-      'Please enter a min of 3 characters and a max of 12 characters!',
+      'Please enter a min of 4 characters and a max of 14 characters!',
     );
   } else if (userNameInput.validity.valueMissing) {
     userNameInput.setCustomValidity('Username is required!');
@@ -41,14 +41,12 @@ emailInput.addEventListener('change', (e) => {
   emailError.textContent = emailInput.validationMessage;
 });
 
-passwordInput.addEventListener('change', (e) => {
+passwordInput.addEventListener('input', (e) => {
+   
   if (passwordInput.validity.valueMissing) {
     passwordInput.setCustomValidity('Password is required!');
-  } else if (passwordInput.validity.typeMismatch) {
-    passwordInput.setCustomValidity('Please Enter a valid password!');
-  } else if (passwordInput.validity.pattern) {
-    passwordInput.setCustomValidity(
-      'Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a number!',
+  } else if (passwordInput.validity.patternMismatch) {
+    passwordInput.setCustomValidity('Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a number!'
     );
   } else {
     passwordInput.setCustomValidity('');
@@ -59,7 +57,7 @@ passwordInput.addEventListener('change', (e) => {
 
 // validate password and confirm password match
 
-confirmPasswordInput.addEventListener('change', (e) => {
+confirmPasswordInput.addEventListener('input', (e) => {
   if (confirmPasswordInput.value !== passwordInput.value) {
     confirmPasswordInput.setCustomValidity('Passwords do not match!');
   } else {
@@ -72,15 +70,25 @@ confirmPasswordInput.addEventListener('change', (e) => {
 registerForm.addEventListener('submit', (e) => {
     e.preventDefault();
   
-    const valid = userNameInput && emailInput && passwordInput && confirmPasswordInput;
+    const userNameValid = userNameInput.checkValidity();
+    const emailValid = emailInput.checkValidity();
+    const passwordValid = passwordInput.checkValidity();
+    const confirmPasswordValid = confirmPasswordInput.checkValidity();
    
-    if(valid) {
+    if(!userNameValid || !emailValid || !passwordValid || !confirmPasswordValid) {
+      alert('Cannot create account check input fields');
+      
+      const inputFields = [userNameInput, emailInput, passwordInput, confirmPasswordInput];
+      inputFieldInvalid = inputFields.find(field => !field.checkValidity());
+      if(inputFieldInvalid) {
+        inputFieldInvalid.focus();
+      }
+      return;
+   } else {
         alert('Account has been created!');
         localStorage.setItem('username', userNameInput.value);
 
         passwordInput.value = '';
         confirmPasswordInput.value = '';
-    } else {
-        alert('Cannot create account check input fields');
     }
-})
+});
